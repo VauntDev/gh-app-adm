@@ -23,7 +23,7 @@ func jwtCmd() *cobra.Command {
 func generate() *cobra.Command {
 	gen := &cobra.Command{
 		Use:   "gen",
-		Short: "generate a jwt token",
+		Short: "generate a jwt token for a github application",
 		RunE: func(cmd *cobra.Command, args []string) error {
 
 			if _, err := os.Stat(viper.GetString(privateKeyPath)); errors.Is(err, os.ErrNotExist) {

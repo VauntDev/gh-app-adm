@@ -25,6 +25,7 @@ func Execute() error {
 
 	// Add start command
 	rootCmd.AddCommand(jwtCmd())
+	rootCmd.AddCommand(installations())
 
 	ctx, cancel := context.WithCancel(context.Background())
 	errGrp, errctx := errgroup.WithContext(ctx)
