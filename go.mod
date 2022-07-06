@@ -3,6 +3,7 @@ module github.com/VauntDev/gh-app-adm
 go 1.17
 
 require (
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/spf13/cobra v1.5.0
 	github.com/spf13/viper v1.12.0
 	golang.org/x/sync v0.0.0-20220601150217-0de741cfad7f
