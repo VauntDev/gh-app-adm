@@ -13,8 +13,9 @@ import (
 
 func installations() *cobra.Command {
 	installations := &cobra.Command{
-		Use:   "installations",
-		Short: "lists the installations belonging to your github application",
+		Use:     "installations",
+		Aliases: []string{"inst", "i"},
+		Short:   "lists the installations belonging to your github application",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// TODO replace with golang github client/app packages
 			client := &http.Client{}
@@ -54,8 +55,9 @@ func installations() *cobra.Command {
 
 func accessToken() *cobra.Command {
 	accessToken := &cobra.Command{
-		Use:   "accessToken",
-		Short: "generate an access token for a installation of a github application",
+		Use:     "accessToken",
+		Aliases: []string{"at"},
+		Short:   "generate an access token for a installation of a github application",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			client := &http.Client{}
 			req, err := http.NewRequest("POST", "https://api.github.com/app/installations/"+viper.GetString(installId)+"/access_tokens", nil)
