@@ -15,12 +15,12 @@ func keyCmd() *cobra.Command {
 	keyCmd := &cobra.Command{
 		Use: "key",
 	}
-	keyCmd.AddCommand(bytes())
+	keyCmd.AddCommand(base64Cmd())
 	return keyCmd
 }
 
-func bytes() *cobra.Command {
-	bytesCmd := &cobra.Command{
+func base64Cmd() *cobra.Command {
+	base64Cmd := &cobra.Command{
 		Use:   "base64",
 		Short: "convert a private key file to base64 bytes",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -39,6 +39,6 @@ func bytes() *cobra.Command {
 			return nil
 		},
 	}
-	bytesCmd.Flags().String(privateKeyPath, "", "--private-key-path, location of the private key file")
-	return bytesCmd
+	base64Cmd.Flags().String(privateKeyPath, "", "--private-key-path, location of the private key file")
+	return base64Cmd
 }

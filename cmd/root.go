@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 
+	"github.com/elewis787/boa"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"golang.org/x/sync/errgroup"
@@ -11,9 +12,9 @@ import (
 func Execute() error {
 	// root command entry to application
 	rootCmd := &cobra.Command{
-		Use:     "vaunt",
+		Use:     "gh-app-adm",
 		Version: "v0.0.1",
-		Short:   "Vaunt application",
+		Short:   "Github Application admin cli",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			// Bind Cobra flags with viper
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
@@ -26,6 +27,10 @@ func Execute() error {
 	// Add commands
 	rootCmd.AddCommand(jwtCmd())
 	rootCmd.AddCommand(keyCmd())
+	rootCmd.AddCommand(installations())
+
+	rootCmd.SetUsageFunc(boa.UsageFunc)
+	rootCmd.SetHelpFunc(boa.HelpFunc)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	errGrp, errctx := errgroup.WithContext(ctx)
