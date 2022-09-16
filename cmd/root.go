@@ -23,8 +23,9 @@ func Execute() error {
 		},
 	}
 
-	// Add start command
+	// Add commands
 	rootCmd.AddCommand(jwtCmd())
+	rootCmd.AddCommand(keyCmd())
 
 	ctx, cancel := context.WithCancel(context.Background())
 	errGrp, errctx := errgroup.WithContext(ctx)
