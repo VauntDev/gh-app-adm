@@ -1,6 +1,6 @@
 # gh-app-adm
-simple app for interacting with github apps 
 
+simple app for interacting with github apps
 
 ## Generate JWT for Github APP 
 You can generate a JWT for your github app by calling the following command 

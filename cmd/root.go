@@ -24,8 +24,9 @@ func Execute() error {
 		},
 	}
 
-	// Add start command
+	// Add commands
 	rootCmd.AddCommand(jwtCmd())
+	rootCmd.AddCommand(keyCmd())
 	rootCmd.AddCommand(installations())
 
 	rootCmd.SetUsageFunc(boa.UsageFunc)
