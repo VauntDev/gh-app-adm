@@ -50,6 +50,7 @@ func installations() *cobra.Command {
 	installations.Flags().Int(page, 1, "--page=1, page number of the results to fetch")
 
 	installations.AddCommand(accessToken())
+	installations.AddCommand(repositories())
 	return installations
 }
 
@@ -57,7 +58,7 @@ func accessToken() *cobra.Command {
 	accessToken := &cobra.Command{
 		Use:     "accessToken",
 		Aliases: []string{"at"},
-		Short:   "generate an access token for a installation of a github application",
+		Short:   "generate an access token for an installation of a github application",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			client := &http.Client{}
 			req, err := http.NewRequest("POST", "https://api.github.com/app/installations/"+viper.GetString(installId)+"/access_tokens", nil)
@@ -85,7 +86,44 @@ func accessToken() *cobra.Command {
 			return nil
 		},
 	}
-	accessToken.Flags().String(installId, "", "--jwt=YOUR_JWT, the JWT generated for your applications")
+	accessToken.Flags().String(installId, "", "--install-id=<INSTALL-ID>, the installation id of the install to generate a token for")
+
+	return accessToken
+}
+
+func repositories() *cobra.Command {
+	accessToken := &cobra.Command{
+		Use:     "repositories",
+		Aliases: []string{"repos"},
+		Short:   "list the repositories for an installation of a github application",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			client := &http.Client{}
+			req, err := http.NewRequest("GET", "https://api.github.com/installation/repositories", nil)
+			if err != nil {
+				return err
+			}
+			req.Header.Add("Authorization", "Bearer "+viper.GetString(token))
+			req.Header.Add("Accept", "application/vnd.github+json")
+			resp, err := client.Do(req)
+			if err != nil {
+				return err
+			}
+
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				return nil
+			}
+
+			var prettyJSON bytes.Buffer
+			if err := json.Indent(&prettyJSON, body, "", "    "); err != nil {
+				return err
+			}
+			fmt.Println(prettyJSON.String())
+
+			return nil
+		},
+	}
+	accessToken.Flags().String(token, "", "--token=<ACCESS-TOKEN>, the Access Token for the installation")
 
 	return accessToken
 }
